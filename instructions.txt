@@ -1,0 +1,53 @@
+Setup & Running Instructions:
+Install Python Libraries:
+pip install -r requirements.txt
+Use code with caution.
+Bash
+Crucially, ensure the Google Agent Development Kit (ADK) library is installed in your Python environment. This library is typically provided directly by Google for specific engagements and might not be on PyPI. The code assumes it's importable as adk.
+Configure GCP:
+Create a GCP Project.
+Enable necessary APIs: Cloud Storage API, BigQuery API.
+Create a GCS Bucket.
+Set up authentication:
+Create a Service Account with roles:
+Storage Object Admin (or Storage Object Creator & Storage Object Viewer) for GCS.
+BigQuery Data Editor and BigQuery Job User (or BigQuery User) for BigQuery.
+Download the JSON key for this service account.
+Set the environment variable GOOGLE_APPLICATION_CREDENTIALS to the path of this JSON key file:
+export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/service-account-file.json"
+Use code with caution.
+Bash
+Update config.py:
+Fill in GCS_BUCKET_NAME with your bucket name.
+Fill in BQ_PROJECT_ID with your GCP project ID.
+Obtain a free API key from Alpha Vantage and update ALPHA_VANTAGE_API_KEY.
+Organize Files:
+Place all .py files and the templates directory (with report_template.html inside it) into a directory, e.g., market_trend_system/.
+If you run main.py from outside this directory, Python's import system might need adjustments (e.g., adding market_trend_system to PYTHONPATH or running as a module python -m market_trend_system.main).
+The provided code uses relative imports like from . import config. For this to work, you should run main.py as part of a package.
+Create an empty __init__.py in the market_trend_system directory.
+Navigate to the directory containing market_trend_system and run:
+python -m market_trend_system.main
+Use code with caution.
+Bash
+Alternatively, for simplicity in a hackathon, you can change relative imports (from . import config) to direct imports (import config) if all files are in the same directory and you run python main.py from within that directory. I've updated main.py to reflect this potential structure. The agent files currently use from . import config, assuming a package structure. If you flatten it, change these to import config. For this submission, I'll keep the package structure as it's cleaner.
+Run the System:
+If using the package structure:
+cd /path/to/parent_of_market_trend_system/
+python -m market_trend_system.main
+Use code with caution.
+Bash
+If you modified imports for a flat structure and are inside the directory:
+cd /path/to/market_trend_system/
+python main.py
+Use code with caution.
+Bash
+Important Considerations for Hackathon:
+Alpha Vantage Rate Limits: The free tier is 5 calls/minute and 100 calls/day. The FinancialDataAgent includes a small delay. If you use more than 4-5 stock symbols, this delay might need to be increased, or the agent might hit the limit.
+RSS Feed Stability: RSS feeds can change or become unreliable. Test the chosen feeds.
+Error Handling: Basic try-except blocks are included. For a hackathon, this is usually sufficient.
+ADK Version/Behavior: The ADK's Runtime.start() behavior (blocking/non-blocking) and event handling specifics might vary. The main.py script includes a simple wait loop for the final event.
+Idempotency: The BigQuery MERGE statements in TrendIdentificationAgent and careful checks help with idempotency (re-running for the same session_id should ideally not duplicate or corrupt data). The DataProcessorAgent inserts rows; if re-run for the same raw event, it would insert duplicates unless more sophisticated duplicate checks are added (e.g., checking if article_id for that session_id already exists). For a hackathon, this might be an accepted limitation.
+BigQuery Costs: While queries are generally inexpensive for small datasets, be mindful if you process very large amounts of data frequently.
+Initial Run: The first time you run, BigQuery tables and the dataset will be created. Subsequent runs will use existing tables.
+This comprehensive setup should give you a strong MVP for your hackathon! Good luck!

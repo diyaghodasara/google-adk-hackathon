@@ -1,0 +1,25 @@
+# Essential ADK library (user needs to have this available/installed)
+# google-cloud-agent-development-kit
+
+# GCP Libraries
+google-cloud-storage
+google-cloud-bigquery
+
+# HTTP Requests
+requests
+
+# RSS Parsing
+feedparser
+
+# Data Handling & Analysis
+pandas
+nltk
+
+# Plotting (for optional chart)
+matplotlib
+
+# Templating
+Jinja2
+
+# Date parsing (often a transitive dependency, but good to list)
+python-dateutil

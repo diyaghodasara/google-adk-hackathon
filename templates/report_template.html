@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Market Trend Report - {{ session_id }}</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        h1, h2 { color: #333; }
+        ul { list-style-type: square; }
+        .article { margin-bottom: 15px; padding: 10px; border: 1px solid #eee; }
+        .article h3 { margin-top: 0; }
+        .positive { color: green; }
+        .negative { color: red; }
+        .neutral { color:DimGray; }
+        .anomaly { color: orange; font-weight: bold; }
+        img { max-width: 100%; height: auto; margin-top:10px; margin-bottom:10px; border: 1px solid #ccc;}
+    </style>
+</head>
+<body>
+    <h1>Market Trend Analysis Report</h1>
+    <p><strong>Date (Session ID):</strong> {{ session_id }}</p>
+
+    <h2>News Sentiment Summary</h2>
+    <p><span class="positive">Positive Articles:</span> {{ sentiment_summary.get('positive', 0) }}</p>
+    <p><span class="negative">Negative Articles:</span> {{ sentiment_summary.get('negative', 0) }}</p>
+    <p><span class="neutral">Neutral Articles:</span> {{ sentiment_summary.get('neutral', 0) }}</p>
+
+    {% if sentiment_chart_b64 %}
+        <h3>Sentiment Distribution Chart</h3>
+        <img src="data:image/png;base64,{{ sentiment_chart_b64 }}" alt="Sentiment Distribution Chart">
+    {% else %}
+        <p><em>Sentiment distribution chart could not be generated or no data.</em></p>
+    {% endif %}
+
+    <h2>Top News Articles (Max 5)</h2>
+    {% if top_articles %}
+        {% for article in top_articles %}
+            <div class="article">
+                <h3><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></h3>
+                <p><strong>Sentiment:</strong> <span class="{{ article.sentiment_label }}">{{ article.sentiment_label }} ({{ "%.2f"|format(article.sentiment_score) }})</span></p>
+                <p>{{ article.summary_cleaned | truncate(300) }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No news articles found for this session.</p>
+    {% endif %}
+
+    <h2>Financial Anomalies (Price Change > {{ config.FINANCIAL_ANOMALY_THRESHOLD_PERCENT }}%)</h2>
+    {% if financial_anomalies %}
+        <ul>
+        {% for anomaly in financial_anomalies %}
+            <li><span class="anomaly">{{ anomaly.symbol }}</span> changed by <strong>{{ "%.2f"|format(anomaly.daily_change_pct * 100) }}%</strong></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No significant financial anomalies identified for this session.</p>
+    {% endif %}
+
+</body>
+</html>
