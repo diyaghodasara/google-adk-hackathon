@@ -7,7 +7,7 @@ BQ_PROJECT_ID = "your-gcp-project-id"                # obligatorio: Reemplazar!
 BQ_DATASET_ID = "market_trend_analysis_dataset" # Se creará si no existe
 
 # Alpha Vantage
-ALPHA_VANTAGE_API_KEY = "YOUR_ALPHA_VANTAGE_API_KEY"  # obligatorio: Reemplazar!
+ALPHA_VANTAGE_API_KEY = "DVC1YCBI5J4F7TTY"  # obligatorio: Reemplazar!
 
 # News Feeds
 NEWS_RSS_FEEDS = {

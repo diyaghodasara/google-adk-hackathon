@@ -1,5 +1,5 @@
 # trend_identification_agent.py
-import adk
+import google.adk as adk
 import logging
 import nltk
 import pandas as pd
@@ -10,14 +10,14 @@ from . import config
 
 logger = logging.getLogger(__name__)
 
-# Download NLTK data if not present
 try:
     nltk.data.find('sentiment/vader_lexicon.zip')
-except nltk.downloader.DownloadError:
+except LookupError:
     nltk.download('vader_lexicon', quiet=True)
+
 try:
-    nltk.data.find('tokenizers/punkt')  # VADER might use it implicitly
-except nltk.downloader.DownloadError:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
     nltk.download('punkt', quiet=True)
 
 

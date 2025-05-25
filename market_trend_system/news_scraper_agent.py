@@ -1,5 +1,5 @@
 # news_scraper_agent.py
-import adk
+import google.adk as adk
 import feedparser
 import json
 import datetime

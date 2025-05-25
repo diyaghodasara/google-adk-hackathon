@@ -1,5 +1,5 @@
 # main.py
-import adk
+import google.adk as adk
 import logging
 import time
 from market_trend_system import config  # Assuming files are in a package 'market_trend_system'

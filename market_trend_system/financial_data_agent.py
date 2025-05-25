@@ -1,5 +1,5 @@
 # financial_data_agent.py
-import adk
+import google.adk as adk
 import requests
 import datetime
 import time

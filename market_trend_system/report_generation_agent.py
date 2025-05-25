@@ -1,5 +1,5 @@
 # report_generation_agent.py
-import adk
+import google.adk as adk
 import logging
 import jinja2
 import pandas as pd

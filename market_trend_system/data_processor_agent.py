@@ -1,5 +1,5 @@
 # data_processor_agent.py
-import adk
+import google.adk as adk
 import re
 import html
 import logging
